@@ -17,6 +17,7 @@ from framework.reporting.word_reporter import WordReporter
 from framework.reporting.video_recorder import VideoRecorder
 from framework.utils.logger import Logger
 from framework.utils.config_validator import ConfigValidator
+from framework.utils.environment_manager import EnvironmentManager
 
 
 class TestEngine:
@@ -32,10 +33,13 @@ class TestEngine:
         self.json_reporter = JsonReporter(self.config)
         self.word_reporter = WordReporter(self.config)
         self.video_recorder = VideoRecorder(self.config)
+        self.environment_manager = EnvironmentManager()
         
         # Execution state
         self.current_execution = None
         self.execution_results = []
+        self.current_environment = None
+        self.environment_data = {}
         
     def _load_config(self) -> Dict[str, Any]:
         """Load master configuration file"""
@@ -238,3 +242,44 @@ class TestEngine:
             self.current_execution['status'] = 'stopped'
             if self.driver_manager.driver:
                 self.driver_manager.quit_driver()
+    
+    def set_environment_data(self, environment_id: str, environment_data: Dict[str, Any]):
+        """Set environment-specific data for test execution"""
+        self.current_environment = environment_id
+        self.environment_data = environment_data
+        self.logger.info(f"Environment data set for: {environment_id}")
+        
+        # Update driver manager with environment-specific browser settings
+        browser_settings = environment_data.get('browser_settings', {})
+        if browser_settings:
+            self.driver_manager.update_browser_settings(browser_settings)
+    
+    def get_current_environment(self) -> str:
+        """Get current environment ID"""
+        return self.current_environment
+    
+    def get_environment_data(self) -> Dict[str, Any]:
+        """Get current environment data"""
+        return self.environment_data.copy()
+    
+    def get_environment_specific_data(self, data_type: str) -> Any:
+        """Get environment-specific data by type"""
+        return self.environment_data.get(data_type, {})
+    
+    def prepare_test_data_with_environment(self, test_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Prepare test data with environment-specific substitutions"""
+        if not self.environment_data:
+            return test_data
+            
+        # Merge environment test data with scenario test data
+        env_test_data = self.environment_data.get('test_data', {})
+        merged_data = {**env_test_data, **test_data}
+        
+        # Add environment-specific URLs and endpoints
+        merged_data['base_url'] = self.environment_data.get('base_url', '')
+        merged_data['api_endpoints'] = self.environment_data.get('api_endpoints', {})
+        merged_data['credentials'] = self.environment_data.get('credentials', {})
+        merged_data['feature_flags'] = self.environment_data.get('feature_flags', {})
+        
+        # Substitute environment variables using environment manager
+        return self.environment_manager.prepare_environment_data(merged_data)
