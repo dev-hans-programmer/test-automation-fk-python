@@ -1,0 +1,75 @@
+{
+  "environment_name": "Production",
+  "environment_id": "prod",
+  "description": "Production environment configuration",
+  "base_url": "https://www.example.com",
+  "timeout_settings": {
+    "page_load_timeout": 60,
+    "element_wait_timeout": 30,
+    "script_timeout": 20
+  },
+  "browser_settings": {
+    "window_size": {
+      "width": 1920,
+      "height": 1080
+    },
+    "headless": true,
+    "incognito": true
+  },
+  "credentials": {
+    "admin_user": {
+      "username": "${PROD_ADMIN_USERNAME}",
+      "password": "${PROD_ADMIN_PASSWORD}"
+    },
+    "test_user": {
+      "username": "${PROD_TEST_USERNAME}",
+      "password": "${PROD_TEST_PASSWORD}"
+    },
+    "api_key": "${PROD_API_KEY}",
+    "database_url": "${PROD_DATABASE_URL}"
+  },
+  "test_data": {
+    "products": [
+      {
+        "id": "prod_product_1",
+        "name": "Production Product 1",
+        "price": 99.99,
+        "category": "Electronics",
+        "sku": "PROD-ELEC-001"
+      },
+      {
+        "id": "prod_product_2",
+        "name": "Production Product 2",
+        "price": 149.99,
+        "category": "Books",
+        "sku": "PROD-BOOK-001"
+      }
+    ],
+    "customers": [
+      {
+        "id": "prod_customer_1",
+        "name": "Alex Johnson Prod",
+        "email": "alex.prod@example.com",
+        "phone": "+1-555-0003",
+        "address": {
+          "street": "789 Production Blvd",
+          "city": "Prod City",
+          "state": "PC",
+          "zip": "98765"
+        }
+      }
+    ]
+  },
+  "api_endpoints": {
+    "login": "/api/v1/auth/login",
+    "products": "/api/v1/products",
+    "orders": "/api/v1/orders",
+    "customers": "/api/v1/customers"
+  },
+  "feature_flags": {
+    "new_checkout_flow": false,
+    "beta_features": false,
+    "debug_mode": false,
+    "performance_monitoring": true
+  }
+}

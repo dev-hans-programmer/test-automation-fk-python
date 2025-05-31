@@ -1,0 +1,75 @@
+{
+  "environment_name": "Development",
+  "environment_id": "dev",
+  "description": "Development environment configuration",
+  "base_url": "https://dev.example.com",
+  "timeout_settings": {
+    "page_load_timeout": 30,
+    "element_wait_timeout": 15,
+    "script_timeout": 10
+  },
+  "browser_settings": {
+    "window_size": {
+      "width": 1920,
+      "height": 1080
+    },
+    "headless": false,
+    "incognito": true
+  },
+  "credentials": {
+    "admin_user": {
+      "username": "${DEV_ADMIN_USERNAME}",
+      "password": "${DEV_ADMIN_PASSWORD}"
+    },
+    "test_user": {
+      "username": "${DEV_TEST_USERNAME}",
+      "password": "${DEV_TEST_PASSWORD}"
+    },
+    "api_key": "${DEV_API_KEY}",
+    "database_url": "${DEV_DATABASE_URL}"
+  },
+  "test_data": {
+    "products": [
+      {
+        "id": "dev_product_1",
+        "name": "Development Product 1",
+        "price": 19.99,
+        "category": "Electronics",
+        "sku": "DEV-ELEC-001"
+      },
+      {
+        "id": "dev_product_2",
+        "name": "Development Product 2",
+        "price": 29.99,
+        "category": "Books",
+        "sku": "DEV-BOOK-001"
+      }
+    ],
+    "customers": [
+      {
+        "id": "dev_customer_1",
+        "name": "John Doe Dev",
+        "email": "john.dev@example.com",
+        "phone": "+1-555-0001",
+        "address": {
+          "street": "123 Dev Street",
+          "city": "Dev City",
+          "state": "DC",
+          "zip": "12345"
+        }
+      }
+    ]
+  },
+  "api_endpoints": {
+    "login": "/api/v1/auth/login",
+    "products": "/api/v1/products",
+    "orders": "/api/v1/orders",
+    "customers": "/api/v1/customers"
+  },
+  "feature_flags": {
+    "new_checkout_flow": true,
+    "beta_features": true,
+    "debug_mode": true,
+    "performance_monitoring": false
+  }
+}

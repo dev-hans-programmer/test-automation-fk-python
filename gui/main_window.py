@@ -13,6 +13,7 @@ from gui.components.scenario_selector import ScenarioSelector
 from gui.components.execution_monitor import ExecutionMonitor
 from gui.components.report_viewer import ReportViewer
 from gui.components.config_manager import ConfigManager
+from gui.components.environment_selector import EnvironmentSelector
 from gui.styles.main_style import StyleManager
 
 from framework.core.test_engine import TestEngine
@@ -137,9 +138,17 @@ class MainWindow:
             self._on_report_selected
         )
         
-        # Configuration manager component
+        # Create config tab layout with environment selector
+        config_container = ttk.Frame(self.config_tab)
+        config_container.pack(fill='both', expand=True, padx=10, pady=10)
+        
+        # Environment selector component (top section)
+        self.environment_selector = EnvironmentSelector(config_container)
+        self.environment_selector.set_environment_changed_callback(self._on_environment_changed)
+        
+        # Configuration manager component (bottom section)
         self.config_manager = ConfigManager(
-            self.config_tab,
+            config_container,
             self._on_config_changed
         )
     
@@ -210,6 +219,27 @@ class MainWindow:
     def _on_report_selected(self, report_path):
         """Handle report selection"""
         self.logger.debug(f"Report selected: {report_path}")
+    
+    def _on_environment_changed(self, environment_id: str, environment_data: Dict[str, Any]):
+        """Handle environment change"""
+        self.logger.info(f"Environment changed to: {environment_id}")
+        try:
+            # Update test engine with new environment data
+            if self.test_engine:
+                self.test_engine.set_environment_data(environment_id, environment_data)
+            
+            # Refresh scenario list to reflect environment changes
+            self._refresh_scenario_list()
+            
+            # Update execution monitor
+            if hasattr(self, 'execution_monitor'):
+                self.execution_monitor.update_environment_info(environment_id, environment_data)
+                
+            self.logger.info(f"Successfully switched to {environment_id} environment")
+            
+        except Exception as e:
+            self.logger.error(f"Failed to switch environment: {str(e)}")
+            messagebox.showerror("Environment Error", f"Failed to switch to {environment_id}: {str(e)}")
     
     def _start_execution(self, execution_config):
         """Start test execution"""
