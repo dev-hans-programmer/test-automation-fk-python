@@ -24,9 +24,9 @@ class EnvironmentSelector:
         
     def _create_widgets(self):
         """Create selector widgets"""
-        # Main frame
-        self.main_frame = ttk.LabelFrame(self.parent, text="Environment Configuration", padding="10")
-        self.main_frame.pack(fill='x', padx=5, pady=5)
+        # Main frame with modern styling
+        self.main_frame = ttk.LabelFrame(self.parent, text="Environment Configuration", padding="20")
+        self.main_frame.pack(fill='x', padx=15, pady=15)
         
         # Environment selection row
         env_frame = ttk.Frame(self.main_frame)
@@ -52,15 +52,15 @@ class EnvironmentSelector:
             button_frame,
             text="Validate",
             command=self._validate_environment,
-            width=10
+            style='Accent.TButton'
         )
-        self.validate_btn.pack(side='left', padx=(0, 5))
+        self.validate_btn.pack(side='left', padx=(0, 10))
         
         self.refresh_btn = ttk.Button(
             button_frame,
             text="Refresh",
             command=self._refresh_environments,
-            width=10
+            style='Secondary.TButton'
         )
         self.refresh_btn.pack(side='left')
         

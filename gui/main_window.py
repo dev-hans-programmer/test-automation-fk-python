@@ -43,9 +43,12 @@ class MainWindow:
     
     def _setup_window(self):
         """Setup main window properties"""
-        self.root.title("Test Automation Framework - v1.0.0")
-        self.root.geometry("1200x800")
-        self.root.minsize(800, 600)
+        self.root.title("Test Automation Framework - v2.0.0")
+        self.root.geometry("1400x900")
+        self.root.minsize(1000, 700)
+        
+        # Configure window background
+        self.root.configure(bg='#f8fafc')
         
         # Center window on screen
         self.root.update_idletasks()
@@ -94,9 +97,9 @@ class MainWindow:
     
     def _create_main_layout(self):
         """Create main layout structure"""
-        # Create main container
-        self.main_container = ttk.Frame(self.root)
-        self.main_container.pack(fill='both', expand=True, padx=10, pady=10)
+        # Create main container with modern styling
+        self.main_container = ttk.Frame(self.root, style='Card.TFrame')
+        self.main_container.pack(fill='both', expand=True, padx=20, pady=20)
         
         # Create notebook for tabs
         self.notebook = ttk.Notebook(self.main_container)
