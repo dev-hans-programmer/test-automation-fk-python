@@ -144,6 +144,10 @@ class WordReporter:
                 error_para.add_run(scenario.get('error'))
                 error_para.style = 'Intense Quote'
             
+            # Add video link if available
+            if scenario.get('video_path') and self.config.get('reporting', {}).get('video_embedding', True):
+                self._add_video_link(document, scenario.get('video_path'), scenario_name)
+            
             # Add step details
             self._add_step_details(document, scenario)
             
@@ -217,6 +221,39 @@ class WordReporter:
             # Add placeholder text instead
             placeholder_para = document.add_paragraph()
             placeholder_para.add_run(f"[Screenshot not available: {caption}]").italic = True
+    
+    def _add_video_link(self, document: Document, video_path: str, scenario_name: str):
+        """Add video link to document"""
+        try:
+            # Add video section
+            video_para = document.add_paragraph()
+            video_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            
+            # Add video icon/text
+            video_run = video_para.add_run("🎥 Test Execution Video")
+            video_run.bold = True
+            video_run.font.size = 12
+            
+            # Add video path/link
+            path_para = document.add_paragraph()
+            path_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            path_run = path_para.add_run(f"Video Location: {video_path}")
+            path_run.italic = True
+            path_run.font.size = 10
+            
+            # Add note about video playback
+            note_para = document.add_paragraph()
+            note_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            note_run = note_para.add_run("(Video can be opened with any media player)")
+            note_run.italic = True
+            note_run.font.size = 9
+            note_run.font.color.rgb = RGBColor(128, 128, 128)
+            
+        except Exception as e:
+            self.logger.warning(f"Failed to add video link {video_path}: {str(e)}")
+            # Add placeholder text instead
+            placeholder_para = document.add_paragraph()
+            placeholder_para.add_run(f"[Video not available: {scenario_name}]").italic = True
     
     def _calculate_success_rate(self, execution_data: Dict[str, Any]) -> float:
         """Calculate success rate percentage"""

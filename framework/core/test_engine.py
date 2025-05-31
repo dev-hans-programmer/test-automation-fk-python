@@ -31,6 +31,7 @@ class TestEngine:
         self.action_executor = None
         self.json_reporter = JsonReporter(self.config)
         self.word_reporter = WordReporter(self.config)
+        self.video_recorder = VideoRecorder(self.config)
         
         # Execution state
         self.current_execution = None
@@ -164,7 +165,15 @@ class TestEngine:
             'error': None
         }
         
+        video_path = None
+        
         try:
+            # Start video recording if enabled
+            if self.config.get('framework_config', {}).get('video_recording', False):
+                video_started = self.video_recorder.start_recording(scenario_name)
+                if video_started:
+                    self.logger.info(f"Video recording started for scenario: {scenario_name}")
+            
             # Parse scenario and test data
             scenario = self.scenario_parser.parse_scenario(
                 scenario_config['scenario_file']
@@ -194,6 +203,13 @@ class TestEngine:
             scenario_result['traceback'] = traceback.format_exc()
         
         finally:
+            # Stop video recording if it was started
+            if self.config.get('framework_config', {}).get('video_recording', False):
+                video_path = self.video_recorder.stop_recording()
+                if video_path:
+                    scenario_result['video_path'] = video_path
+                    self.logger.info(f"Video recording saved: {video_path}")
+            
             scenario_end = datetime.now()
             scenario_result['end_time'] = scenario_end.isoformat()
             scenario_result['duration'] = (scenario_end - scenario_start).total_seconds()

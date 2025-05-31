@@ -200,12 +200,12 @@ class ConfigManager:
             state='disabled'
         ).pack(anchor='w', pady=2)
         
-        self.video_recording_var = tk.BooleanVar(value=False)
+        self.video_recording_var = tk.BooleanVar(value=True)
         ttk.Checkbutton(
             execution_frame,
-            text="Enable video recording (Future feature)",
+            text="Enable video recording",
             variable=self.video_recording_var,
-            state='disabled'
+            command=self._on_config_changed
         ).pack(anchor='w', pady=2)
         
         # Pack canvas and scrollbar
