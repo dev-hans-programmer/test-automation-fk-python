@@ -79,6 +79,7 @@ class ActionExecutor:
                 self.config.get('framework_config', {}).get('screenshot_on_step', False)):
                 
                 screenshot_path = self.screenshot_manager.capture_step_screenshot(
+                    self.driver,
                     step_result['step_id'],
                     step_result['step_name'],
                     step_result['status']

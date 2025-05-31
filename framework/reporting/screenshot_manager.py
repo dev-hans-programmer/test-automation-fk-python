@@ -30,25 +30,23 @@ class ScreenshotManager:
         os.makedirs(session_dir, exist_ok=True)
         return session_dir
     
-    def capture_step_screenshot(self, step_id: int, step_name: str, status: str) -> Optional[str]:
+    def capture_step_screenshot(self, driver, step_id: int, step_name: str, status: str) -> Optional[str]:
         """Capture screenshot for a test step"""
         try:
-            # Import here to avoid circular imports
-            from framework.core.web_driver_manager import WebDriverManager
-            
             # Generate filename
             safe_step_name = self._sanitize_filename(step_name)
             timestamp = datetime.now().strftime("%H%M%S")
             filename = f"step_{step_id:02d}_{timestamp}_{safe_step_name}_{status}.png"
             filepath = os.path.join(self.session_dir, filename)
             
-            # Use the active driver to take screenshot
-            # This is a simplified approach - in practice, you'd inject the driver
-            # For now, we'll create a placeholder file to demonstrate the structure
-            self._create_placeholder_screenshot(filepath, step_name, status)
-            
-            self.logger.info(f"Screenshot captured: {filepath}")
-            return filepath
+            # Take actual screenshot using WebDriver
+            if driver:
+                driver.save_screenshot(filepath)
+                self.logger.info(f"Screenshot captured: {filepath}")
+                return filepath
+            else:
+                self.logger.warning(f"No driver available for screenshot at step {step_id}")
+                return None
             
         except Exception as e:
             self.logger.error(f"Failed to capture screenshot for step {step_id}: {str(e)}")
@@ -68,7 +66,7 @@ class ScreenshotManager:
         except Exception as e:
             self.logger.error(f"Failed to create placeholder screenshot: {str(e)}")
     
-    def capture_failure_screenshot(self, scenario_name: str, error_message: str) -> Optional[str]:
+    def capture_failure_screenshot(self, driver, scenario_name: str, error_message: str) -> Optional[str]:
         """Capture screenshot on test failure"""
         try:
             safe_scenario_name = self._sanitize_filename(scenario_name)
@@ -76,11 +74,14 @@ class ScreenshotManager:
             filename = f"failure_{timestamp}_{safe_scenario_name}.png"
             filepath = os.path.join(self.session_dir, filename)
             
-            # Create placeholder for failure screenshot
-            self._create_placeholder_screenshot(filepath, f"FAILURE: {scenario_name}", "failed")
-            
-            self.logger.info(f"Failure screenshot captured: {filepath}")
-            return filepath
+            # Take actual failure screenshot using WebDriver
+            if driver:
+                driver.save_screenshot(filepath)
+                self.logger.info(f"Failure screenshot captured: {filepath}")
+                return filepath
+            else:
+                self.logger.warning(f"No driver available for failure screenshot")
+                return None
             
         except Exception as e:
             self.logger.error(f"Failed to capture failure screenshot: {str(e)}")
