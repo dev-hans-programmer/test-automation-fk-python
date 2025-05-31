@@ -14,6 +14,7 @@ from framework.core.web_driver_manager import WebDriverManager
 from framework.core.action_executor import ActionExecutor
 from framework.reporting.json_reporter import JsonReporter
 from framework.reporting.word_reporter import WordReporter
+from framework.reporting.video_recorder import VideoRecorder
 from framework.utils.logger import Logger
 from framework.utils.config_validator import ConfigValidator
 

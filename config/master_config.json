@@ -6,7 +6,7 @@
         "explicit_wait": 30,
         "screenshot_on_step": true,
         "screenshot_on_failure": true,
-        "video_recording": false,
+        "video_recording": true,
         "parallel_execution": false,
         "max_retry_attempts": 3
     },
@@ -14,8 +14,16 @@
         "json_reports": true,
         "word_reports": true,
         "screenshot_embedding": true,
+        "video_embedding": true,
         "report_directory": "./reports",
-        "screenshot_directory": "./screenshots"
+        "screenshot_directory": "./screenshots",
+        "video_directory": "./videos"
+    },
+    "video_config": {
+        "fps": 10,
+        "quality": "medium",
+        "compression": true,
+        "step_videos": false
     },
     "test_scenarios": [
         {
