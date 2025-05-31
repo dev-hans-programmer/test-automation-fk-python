@@ -11,6 +11,7 @@ from datetime import datetime
 from typing import Dict, Any, List, Optional
 
 from framework.utils.logger import Logger
+from gui.components.video_player import VideoPlayer
 
 
 class ReportViewer:
@@ -138,6 +139,11 @@ class ReportViewer:
         self.raw_data_tab = ttk.Frame(self.details_notebook)
         self.details_notebook.add(self.raw_data_tab, text="Raw Data")
         self._create_raw_data_tab()
+        
+        # Video playback tab
+        self.video_tab = ttk.Frame(self.details_notebook)
+        self.details_notebook.add(self.video_tab, text="Videos")
+        self._create_video_tab()
     
     def _create_summary_tab(self):
         """Create summary tab content"""
@@ -237,6 +243,11 @@ class ReportViewer:
         
         self.raw_text.pack(side='left', fill='both', expand=True)
         raw_scrollbar.pack(side='right', fill='y')
+    
+    def _create_video_tab(self):
+        """Create video playback tab content"""
+        # Initialize video player component
+        self.video_player = VideoPlayer(self.video_tab)
     
     def _load_reports(self):
         """Load reports from reports directory"""
@@ -461,13 +472,24 @@ class ReportViewer:
             
             scenarios = self.current_report['data'].get('scenarios', [])
             if 0 <= index < len(scenarios):
-                self._display_scenario_steps(scenarios[index])
+                scenario = scenarios[index]
+                self._display_scenario_steps(scenario)
+                
+                # Check if scenario has associated video and update video player
+                if hasattr(self, 'video_player') and scenario.get('video_path'):
+                    self.video_player.set_video_path(scenario['video_path'])
     
     def _display_scenario_steps(self, scenario: Dict[str, Any]):
         """Display scenario step details"""
         steps_text = f"Scenario: {scenario.get('scenario_name', 'Unknown')}\n"
         steps_text += f"Status: {scenario.get('status', 'unknown')}\n"
         steps_text += f"Duration: {scenario.get('duration', 0):.1f}s\n"
+        
+        # Add video information if available
+        if scenario.get('video_path'):
+            video_name = os.path.basename(scenario['video_path'])
+            steps_text += f"Video: {video_name} 🎥\n"
+            steps_text += f"Video Path: {scenario['video_path']}\n"
         
         if scenario.get('error'):
             steps_text += f"Error: {scenario['error']}\n"
