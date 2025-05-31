@@ -1,0 +1,137 @@
+{
+    "scenario_info": {
+        "name": "Complete Checkout Flow",
+        "description": "Test complete checkout process from cart to order completion",
+        "url": "https://www.saucedemo.com/",
+        "expected_duration": 60,
+        "tags": ["checkout", "order", "end-to-end"]
+    },
+    "test_steps": [
+        {
+            "step_id": 1,
+            "step_name": "Login and Add Product",
+            "action": "navigate",
+            "target": "url",
+            "value": "${url}",
+            "wait_time": 3,
+            "screenshot": true
+        },
+        {
+            "step_id": 2,
+            "step_name": "Login Process",
+            "action": "input_text",
+            "target": "id:user-name",
+            "value": "${username}",
+            "wait_time": 1,
+            "screenshot": false
+        },
+        {
+            "step_id": 3,
+            "step_name": "Enter Password",
+            "action": "input_text",
+            "target": "id:password",
+            "value": "${password}",
+            "wait_time": 1,
+            "screenshot": false
+        },
+        {
+            "step_id": 4,
+            "step_name": "Submit Login",
+            "action": "click",
+            "target": "id:login-button",
+            "value": "",
+            "wait_time": 3,
+            "screenshot": true
+        },
+        {
+            "step_id": 5,
+            "step_name": "Add Product to Cart",
+            "action": "click",
+            "target": "id:add-to-cart-${product1}",
+            "value": "",
+            "wait_time": 2,
+            "screenshot": true
+        },
+        {
+            "step_id": 6,
+            "step_name": "Go to Cart",
+            "action": "click",
+            "target": "class:shopping_cart_link",
+            "value": "",
+            "wait_time": 3,
+            "screenshot": true
+        },
+        {
+            "step_id": 7,
+            "step_name": "Proceed to Checkout",
+            "action": "click",
+            "target": "id:checkout",
+            "value": "",
+            "wait_time": 3,
+            "screenshot": true
+        },
+        {
+            "step_id": 8,
+            "step_name": "Enter First Name",
+            "action": "input_text",
+            "target": "id:first-name",
+            "value": "${first_name}",
+            "wait_time": 1,
+            "screenshot": true
+        },
+        {
+            "step_id": 9,
+            "step_name": "Enter Last Name",
+            "action": "input_text",
+            "target": "id:last-name",
+            "value": "${last_name}",
+            "wait_time": 1,
+            "screenshot": true
+        },
+        {
+            "step_id": 10,
+            "step_name": "Enter Postal Code",
+            "action": "input_text",
+            "target": "id:postal-code",
+            "value": "${postal_code}",
+            "wait_time": 1,
+            "screenshot": true
+        },
+        {
+            "step_id": 11,
+            "step_name": "Continue to Overview",
+            "action": "click",
+            "target": "id:continue",
+            "value": "",
+            "wait_time": 3,
+            "screenshot": true
+        },
+        {
+            "step_id": 12,
+            "step_name": "Verify Checkout Overview",
+            "action": "assert_url_contains",
+            "target": "url",
+            "value": "/checkout-step-two.html",
+            "wait_time": 2,
+            "screenshot": true
+        },
+        {
+            "step_id": 13,
+            "step_name": "Complete Order",
+            "action": "click",
+            "target": "id:finish",
+            "value": "",
+            "wait_time": 3,
+            "screenshot": true
+        },
+        {
+            "step_id": 14,
+            "step_name": "Verify Order Complete",
+            "action": "assert_element_visible",
+            "target": "class:complete-header",
+            "value": "",
+            "wait_time": 2,
+            "screenshot": true
+        }
+    ]
+}

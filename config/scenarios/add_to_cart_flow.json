@@ -1,0 +1,101 @@
+{
+    "scenario_info": {
+        "name": "Add Products to Cart",
+        "description": "Test adding products to cart and verification",
+        "url": "https://www.saucedemo.com/",
+        "expected_duration": 45,
+        "tags": ["cart", "products", "functionality"]
+    },
+    "test_steps": [
+        {
+            "step_id": 1,
+            "step_name": "Navigate to SauceDemo",
+            "action": "navigate",
+            "target": "url",
+            "value": "${url}",
+            "wait_time": 3,
+            "screenshot": true
+        },
+        {
+            "step_id": 2,
+            "step_name": "Login with Valid Credentials",
+            "action": "input_text",
+            "target": "id:user-name",
+            "value": "${username}",
+            "wait_time": 1,
+            "screenshot": false
+        },
+        {
+            "step_id": 3,
+            "step_name": "Enter Password",
+            "action": "input_text",
+            "target": "id:password",
+            "value": "${password}",
+            "wait_time": 1,
+            "screenshot": false
+        },
+        {
+            "step_id": 4,
+            "step_name": "Click Login",
+            "action": "click",
+            "target": "id:login-button",
+            "value": "",
+            "wait_time": 3,
+            "screenshot": true
+        },
+        {
+            "step_id": 5,
+            "step_name": "Add First Product to Cart",
+            "action": "click",
+            "target": "id:add-to-cart-${product1}",
+            "value": "",
+            "wait_time": 2,
+            "screenshot": true
+        },
+        {
+            "step_id": 6,
+            "step_name": "Add Second Product to Cart",
+            "action": "click",
+            "target": "id:add-to-cart-${product2}",
+            "value": "",
+            "wait_time": 2,
+            "screenshot": true
+        },
+        {
+            "step_id": 7,
+            "step_name": "Verify Cart Badge Count",
+            "action": "assert_element_text",
+            "target": "class:shopping_cart_badge",
+            "value": "2",
+            "wait_time": 2,
+            "screenshot": true
+        },
+        {
+            "step_id": 8,
+            "step_name": "Navigate to Cart",
+            "action": "click",
+            "target": "class:shopping_cart_link",
+            "value": "",
+            "wait_time": 3,
+            "screenshot": true
+        },
+        {
+            "step_id": 9,
+            "step_name": "Verify Cart Items Count",
+            "action": "assert_element_count",
+            "target": "class:cart_item",
+            "value": "2",
+            "wait_time": 2,
+            "screenshot": true
+        },
+        {
+            "step_id": 10,
+            "step_name": "Verify First Product in Cart",
+            "action": "assert_element_visible",
+            "target": "xpath://div[@class='cart_item']//div[contains(text(),'${product1_name}')]",
+            "value": "",
+            "wait_time": 1,
+            "screenshot": true
+        }
+    ]
+}

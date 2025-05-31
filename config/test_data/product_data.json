@@ -1,0 +1,19 @@
+{
+    "url": "https://www.saucedemo.com/",
+    "username": "standard_user",
+    "password": "secret_sauce",
+    "product1": "sauce-labs-backpack",
+    "product1_name": "Sauce Labs Backpack",
+    "product2": "sauce-labs-bike-light",
+    "product2_name": "Sauce Labs Bike Light",
+    "product3": "sauce-labs-bolt-t-shirt",
+    "product3_name": "Sauce Labs Bolt T-Shirt",
+    "checkout_info": {
+        "first_name": "Test",
+        "last_name": "User",
+        "postal_code": "12345"
+    },
+    "first_name": "Test",
+    "last_name": "User",
+    "postal_code": "12345"
+}

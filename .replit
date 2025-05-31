@@ -1,0 +1,41 @@
+modules = ["python-3.11"]
+
+[nix]
+channel = "stable-24_05"
+packages = ["geckodriver"]
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Test Automation Framework"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "gui_test"
+
+[[workflows.workflow]]
+name = "Test Automation Framework"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pip install selenium python-docx && python main.py"
+waitForPort = 5000
+
+[[workflows.workflow]]
+name = "gui_test"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python main.py"
+
+[deployment]
+run = ["sh", "-c", "pip install selenium python-docx && python main.py"]

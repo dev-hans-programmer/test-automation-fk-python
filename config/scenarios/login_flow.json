@@ -1,0 +1,74 @@
+{
+    "scenario_info": {
+        "name": "Successful Login Flow",
+        "description": "Test successful login functionality on SauceDemo",
+        "url": "https://www.saucedemo.com/",
+        "expected_duration": 30,
+        "tags": ["login", "authentication", "smoke"]
+    },
+    "test_steps": [
+        {
+            "step_id": 1,
+            "step_name": "Navigate to SauceDemo",
+            "action": "navigate",
+            "target": "url",
+            "value": "${url}",
+            "wait_time": 3,
+            "screenshot": true
+        },
+        {
+            "step_id": 2,
+            "step_name": "Enter Username",
+            "action": "input_text",
+            "target": "id:user-name",
+            "value": "${username}",
+            "wait_time": 1,
+            "screenshot": true
+        },
+        {
+            "step_id": 3,
+            "step_name": "Enter Password",
+            "action": "input_text",
+            "target": "id:password",
+            "value": "${password}",
+            "wait_time": 1,
+            "screenshot": true
+        },
+        {
+            "step_id": 4,
+            "step_name": "Click Login Button",
+            "action": "click",
+            "target": "id:login-button",
+            "value": "",
+            "wait_time": 3,
+            "screenshot": true
+        },
+        {
+            "step_id": 5,
+            "step_name": "Verify Inventory Page",
+            "action": "assert_url_contains",
+            "target": "url",
+            "value": "/inventory.html",
+            "wait_time": 2,
+            "screenshot": true
+        },
+        {
+            "step_id": 6,
+            "step_name": "Verify Products Display",
+            "action": "assert_element_visible",
+            "target": "class:inventory_list",
+            "value": "",
+            "wait_time": 2,
+            "screenshot": true
+        },
+        {
+            "step_id": 7,
+            "step_name": "Verify Product Count",
+            "action": "assert_element_count",
+            "target": "class:inventory_item",
+            "value": "6",
+            "wait_time": 1,
+            "screenshot": true
+        }
+    ]
+}

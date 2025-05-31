@@ -1,0 +1,13 @@
+{
+    "url": "https://www.saucedemo.com/",
+    "username": "standard_user",
+    "password": "secret_sauce",
+    "invalid_username": "invalid_user",
+    "invalid_password": "wrong_password",
+    "locked_username": "locked_out_user",
+    "browser_settings": {
+        "headless": false,
+        "window_size": "1920,1080",
+        "timeout": 30
+    }
+}

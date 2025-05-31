@@ -1,0 +1,43 @@
+{
+    "framework_config": {
+        "version": "1.0.0",
+        "browser": "chrome",
+        "implicit_wait": 10,
+        "explicit_wait": 30,
+        "screenshot_on_step": true,
+        "screenshot_on_failure": true,
+        "video_recording": false,
+        "parallel_execution": false,
+        "max_retry_attempts": 3
+    },
+    "reporting": {
+        "json_reports": true,
+        "word_reports": true,
+        "screenshot_embedding": true,
+        "report_directory": "./reports",
+        "screenshot_directory": "./screenshots"
+    },
+    "test_scenarios": [
+        {
+            "name": "Successful Login Flow",
+            "scenario_file": "config/scenarios/login_flow.json",
+            "test_data_file": "config/test_data/login_data.json",
+            "execute": "y",
+            "priority": 1
+        },
+        {
+            "name": "Add Products to Cart",
+            "scenario_file": "config/scenarios/add_to_cart_flow.json",
+            "test_data_file": "config/test_data/product_data.json",
+            "execute": "y",
+            "priority": 2
+        },
+        {
+            "name": "Complete Checkout Flow",
+            "scenario_file": "config/scenarios/checkout_flow.json",
+            "test_data_file": "config/test_data/product_data.json",
+            "execute": "n",
+            "priority": 3
+        }
+    ]
+}
